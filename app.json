@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "CricketHub",
+    "slug": "cricket-hub",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#06142E"
+      }
+    }
+  }
+}
