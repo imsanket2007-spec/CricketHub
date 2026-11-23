@@ -3,12 +3,12 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAGDJhYXVgeCYIm5bJSZnS_ZhdzynZ4gB4",
-  authDomain: "crickethub-c7b3a.firebaseapp.com",
-  projectId: "crickethub-c7b3a",
-  storageBucket: "crickethub-c7b3a.firebasestorage.app",
-  messagingSenderId: "885034339278",
-  appId: "1:885034339278:web:99a7667b8086df005eb99f"
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
 };
   
 const app = initializeApp(firebaseConfig);

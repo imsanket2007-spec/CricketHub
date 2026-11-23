@@ -21,7 +21,7 @@ import {
 import { auth, db } from '../services/FirebaseConfig';
 
 // Enter your existing NewsAPI key here
-const API_KEY = '6714b01b541343d288945fb7ab3b451f';
+const API_KEY = process.env.EXPO_PUBLIC_NEWS_API_KEY;
 
 export default function NewsScreen({ navigation }) {
 
