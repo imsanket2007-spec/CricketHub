@@ -1,110 +1,128 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
-import { Text, TextInput, Button } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { Text, TextInput, Button, Divider } from 'react-native-paper';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../services/FirebaseConfig';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Please enter email and password');
-      return;
-    }
+  const login = async () => {
+    if (!email || !password)
+      return alert('Please enter email and password');
 
     try {
       setLoading(true);
-
-      await signInWithEmailAndPassword(
-        auth,
-        email.trim(),
-        password
-      );
-
+      await signInWithEmailAndPassword(auth, email.trim(), password);
       navigation.replace('Main');
-
-    } catch (error) {
-      Alert.alert('Login Failed', error.message);
+    } catch (e) {
+      alert(e.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Text variant="headlineLarge" style={styles.title}>
-        CRICKET HUB
-      </Text>
+    <View style={s.container}>
+      <Text style={s.logo}>🏏</Text>
+      <Text style={s.title}>CricketHub</Text>
+      <Text style={s.subtitle}>Your cricket world, all in one place.</Text>
 
-      <Text variant="titleMedium" style={styles.subtitle}>
-        Welcome Back!
-      </Text>
+      <View style={s.card}>
+        <Text style={s.heading}>Welcome Back!</Text>
+        <Text style={s.info}>Login to continue</Text>
 
-      <TextInput
-        label="Email"
-        mode="outlined"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        style={styles.input}
-      />
+        <TextInput
+          label="Email Address"
+          mode="outlined"
+          left={<TextInput.Icon icon="email-outline" />}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          textColor="#183B2D"
+          placeholderTextColor="#888888"
+          outlineColor="#CCCCCC"
+          activeOutlineColor="#16845B"
+          style={s.input}
+        />
 
-      <TextInput
-        label="Password"
-        mode="outlined"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={styles.input}
-      />
+        <TextInput
+          label="Password"
+          mode="outlined"
+          left={<TextInput.Icon icon="lock-outline" />}
+          right={
+            <TextInput.Icon
+              icon={show ? 'eye-off' : 'eye'}
+              onPress={() => setShow(!show)}
+            />
+          }
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!show}
+          textColor="#183B2D"
+          placeholderTextColor="#888888"
+          outlineColor="#CCCCCC"
+          activeOutlineColor="#16845B"
+          style={s.input}
+        />
 
-      <Button
-        mode="contained"
-        onPress={handleLogin}
-        loading={loading}
-        disabled={loading}
-        style={styles.button}
-      >
-        LOGIN
-      </Button>
+        <Button
+          mode="contained"
+          onPress={login}
+          loading={loading}
+          disabled={loading}
+          style={s.button}
+          contentStyle={{ height: 48 }}
+        >
+          LOGIN
+        </Button>
 
-      <Button
-        mode="text"
-        onPress={() => navigation.navigate('Register')}
-      >
-        Create New Account
-      </Button>
+        <Divider style={s.divider} />
+
+        <Text style={s.footer}>New to CricketHub?</Text>
+        <Button
+          textColor="#16845B"
+          onPress={() => navigation.navigate('Register')}
+        >
+          Create an Account
+        </Button>
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 25,
-    backgroundColor: '#F5F7FA',
+    flex: 1, justifyContent: 'center',
+    padding: 22, backgroundColor: '#F7FAF8'
   },
+  logo: { fontSize: 55, textAlign: 'center' },
   title: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: '#06142E',
-    marginBottom: 10,
+    fontSize: 30, fontWeight: 'bold',
+    textAlign: 'center', color: '#183B2D'
   },
   subtitle: {
-    textAlign: 'center',
-    marginBottom: 30,
+    textAlign: 'center', color: '#888',
+    marginBottom: 28, marginTop: 5
   },
-  input: {
-    marginBottom: 15,
+  card: {
+    backgroundColor: '#FFF', padding: 22,
+    borderRadius: 18, elevation: 3
   },
-  button: {
-    marginTop: 10,
-    paddingVertical: 5,
-    backgroundColor: '#06142E',
+  heading: {
+    fontSize: 23, fontWeight: 'bold',
+    color: '#183B2D', textAlign: 'center'
   },
+  info: {
+    textAlign: 'center', color: '#888',
+    marginBottom: 24, marginTop: 5
+  },
+  input: { marginBottom: 16, backgroundColor: '#FFF' },
+  button: { backgroundColor: '#16845B', borderRadius: 8 },
+  divider: { marginTop: 22, marginBottom: 15 },
+  footer: { textAlign: 'center', color: '#777' }
 });
